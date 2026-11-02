@@ -2,332 +2,215 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AXELION LAUNCHER v1.2</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/skinview3d@3.2.0/bundles/skinview3d.bundle.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@700;800&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Axelion Launcher | En mantenimiento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg-card: rgba(10,12,16,0.72);--border: rgba(255,255,255,0.05);--accent: #3b82f6;--accent-glow: rgba(59,130,246,0.4);--text-1: #f8fafc;--text-2: #94a3b8;--success: #22c55e;--danger: #ef4444;}
-*{margin:0;padding:0;box-sizing:border-box}
-html,body{width:100vw;height:100vh;overflow:hidden;font-family:'Inter',sans-serif;background:#000}
+  :root {
+    --bg: #05030f;
+    --cyan: #00f0ff;
+    --magenta: #ff2bd6;
+    --violet: #7a3cff;
+    --text: #f3f0ff;
+    --muted: #a69fc7;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Sora", "Segoe UI", system-ui, -apple-system, sans-serif;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    position: relative;
+  }
 
-/* FONDO V2.2 - FOTO MONTAÑA */
-.bg{position:fixed;inset:0;z-index:0;background:url('https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=2070') center/cover no-repeat;filter:blur(32px) brightness(0.38);transform:scale(1.1);animation:bgMove 20s ease infinite}
-@keyframes bgMove{0%,100%{transform:scale(1.1)}50%{transform:scale(1.15)}}
+  /* Fondo neón */
+  .glow {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(110px);
+    opacity: .55;
+    animation: drift 14s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+  .glow.a { width: 50vmax; height: 50vmax; background: var(--cyan); top: -20vmax; left: -15vmax; }
+  .glow.b { width: 45vmax; height: 45vmax; background: var(--magenta); bottom: -20vmax; right: -15vmax; animation-delay: -5s; }
+  .glow.c { width: 30vmax; height: 30vmax; background: var(--violet); top: 30%; left: 40%; opacity: .35; animation-delay: -9s; }
+  @keyframes drift {
+    to { transform: translate(6vmax, 4vmax) scale(1.15); }
+  }
+  .grid {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+    -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
+    pointer-events: none;
+  }
 
-.wrapper{width:100%;height:100%;display:flex;align-items:center;justify-content:center;padding:16px}
-.card{position:relative;z-index:10;width:95vw;max-width:1150px;background:var(--bg-card);backdrop-filter:blur(40px);border:1px solid var(--border);border-radius:20px;padding:32px;box-shadow:0 40px 120px rgba(0,0,0,0.65);animation:fadeIn 0.6s}
-@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
-.logo{font-family:'Orbitron',sans-serif;font-size:26px;font-weight:800;color:var(--text-1);text-shadow:0 0 20px var(--accent-glow)}.logo span{color:var(--accent)}
-.profile{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,0.04);padding:8px 14px;border-radius:14px;border:1px solid var(--border);transition:all 0.3s}
-.profile:hover{background:rgba(255,255,255,0.08)}
-#profileAvatar3D{width:36px;height:36px;border-radius:50%;border:1px solid var(--border)}
-.badge{font-size:10px;font-weight:700;padding:2px 6px;border-radius:6px;background:rgba(34,197,94,0.15);border:1px solid rgba(34,197,94,0.3);color:var(--success);display:none}
-.split{display:grid;grid-template-columns:1.1fr 0.9fr;gap:24px}
-@media(max-width:950px){.split{grid-template-columns:1fr}}
-.panel-title{font-size:13px;font-weight:700;color:var(--text-2);letter-spacing:0.6px;margin-bottom:16px;text-transform:uppercase}
-.label{font-size:12px;font-weight:600;color:var(--text-2);margin-bottom:8px;display:block}
-.input-wrapper{position:relative;margin-bottom:16px}
-.input-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text-2)}
-.input,.select{width:100%;background:rgba(15,17,23,0.85);border:1px solid var(--border);border-radius:14px;padding:14px 16px 14px 44px;font-size:14px;color:var(--text-1);transition:all 0.3s}
-.select{padding-right:44px;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns=N/A width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2394a3b8' d='M6 9L1 4h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
-.input:focus,.select:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow);transform:scale(1.01)}
-.btn{width:100%;padding:12px;border-radius:12px;font-weight:600;font-size:14px;cursor:pointer;border:none;transition:all 0.3s}
-.btn-primary{background:linear-gradient(135deg,#3b82f6,#2563eb);color:white}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgba(59,130,246,0.4)}
-.btn-secondary{background:rgba(255,255,255,0.05);color:var(--text-1);border:1px solid var(--border);margin-top:8px}
-.btn-secondary:hover{background:rgba(255,255,255,0.1);transform:translateY(-1px)}
-.btn-danger{background:rgba(239,68,68,0.1);color:var(--danger);border:1px solid rgba(239,68,68,0.3)}
-.viewer-box{background:rgba(15,17,23,0.6);border:1px solid var(--border);border-radius:16px;padding:16px}
-#mainSkinViewer{width:100%;height:280px;border-radius:12px;background:linear-gradient(180deg, rgba(0,0,0,0.3), rgba(0,0,0,0.6));cursor:grab}
-.upload-btn{width:100%;margin-top:8px;padding:10px;border:1px dashed var(--border);border-radius:12px;background:transparent;color:var(--text-2);font-size:12px;font-weight:600;cursor:pointer;transition:all 0.3s}
-.upload-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(59,130,246,0.1)}
-.file-input{display:none}
-.toggle-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
-.toggle{width:46px;height:26px;background:rgba(255,255,255,0.1);border-radius:20px;position:relative;cursor:pointer;transition:background 0.3s}
-.toggle.active{background:var(--accent)}
-.toggle-knob{position:absolute;width:20px;height:20px;background:white;border-radius:50%;top:3px;left:3px;transition:left 0.3s}
-.toggle.active.toggle-knob{left:23px}
-.slider-row{margin-bottom:16px}
-.ram-info{font-size:11px;color:var(--text-2);margin-top:4px}
-.slider{width:100%;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;appearance:none}
-.slider::-webkit-slider-thumb{appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer;transition:transform 0.2s}
-.slider::-webkit-slider-thumb:hover{transform:scale(1.3)}
-.launch-btn{width:100%;padding:18px;border:none;border-radius:16px;margin-top:20px;background:linear-gradient(135deg,#3b82f6,#2563eb);color:white;font-family:'Orbitron',sans-serif;font-size:16px;font-weight:800;letter-spacing:0.8px;cursor:pointer;box-shadow:0 10px 30px rgba(59,130,246,0.3);animation:breath 3s ease-in-out infinite}
-@keyframes breath{0%,100%{box-shadow:0 10px 30px rgba(59,130,246,0.3)}50%{box-shadow:0 10px 45px var(--accent-glow)}}
-.lock-screen{position:fixed;inset:0;z-index:999;background:rgba(0,0,0,0.95);backdrop-filter:blur(30px);display:flex;align-items:center;justify-content:center}
-.lock-box{width:90vw;max-width:400px;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:32px;text-align:center;animation:fadeIn 0.5s}
-.lock-icon{font-size:48px;margin-bottom:16px;animation:float 3s ease-in-out infinite}
-@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
-.splash{position:absolute;inset:0;background:rgba(10,12,16,0.96);backdrop-filter:blur(24px);border-radius:20px;display:none;flex-direction:column;align-items:center;justify-content:center;gap:24px;z-index:15}
-.loader{width:64px;height:64px;border:3px solid rgba(59,130,246,0.15);border-top:3px solid var(--accent);border-radius:50%;animation:spin 1s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.progress{width:320px;height:3px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
-.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,#3b82f6,#2563eb);transition:width 0.7s}
-.log-text{font-size:14px;color:var(--text-2);opacity:0;transition:opacity 0.4s}
-.modal{position:fixed;inset:0;z-index:50;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.75);backdrop-filter:blur(20px)}
-.auth-box{width:90vw;max-width:400px;background:var(--bg-card);border:1px solid var(--border);border-radius:20px;padding:28px}
-.tabs{display:flex;gap:8px;margin-bottom:16px}
-.tab-btn{flex:1;padding:10px;border-radius:10px;background:transparent;border:none;color:var(--text-2);font-weight:600;cursor:pointer;transition:all 0.3s}
-.tab-btn.active{background:rgba(59,130,246,0.2);color:var(--text-1);transform:scale(1.05)}
-.toast{position:fixed;bottom:24px;right:24px;background:var(--bg-card);border:1px solid var(--border);padding:12px 16px;border-radius:12px;transform:translateX(400px);transition:transform 0.4s;z-index:100}
-.toast.show{transform:translateX(0)}
+  /* Tarjeta */
+  main {
+    position: relative;
+    z-index: 1;
+    width: min(92vw, 560px);
+    padding: 3.2rem 2.4rem 2.6rem;
+    text-align: center;
+    background: rgba(12, 8, 30, .55);
+    border: 1px solid rgba(0, 240, 255, .28);
+    border-radius: 22px;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow:
+      0 0 0 1px rgba(255, 43, 214, .12),
+      0 0 40px rgba(0, 240, 255, .18),
+      0 0 90px rgba(255, 43, 214, .12);
+  }
+
+  /* Símbolo giratorio */
+  .loader {
+    position: relative;
+    width: 128px; height: 128px;
+    margin: 0 auto 2rem;
+  }
+  .ring {
+    position: absolute; inset: 0;
+    border-radius: 50%;
+    border: 3px solid transparent;
+  }
+  .ring.r1 {
+    border-top-color: var(--cyan);
+    border-right-color: var(--cyan);
+    filter: drop-shadow(0 0 8px var(--cyan));
+    animation: spin 2.2s linear infinite;
+  }
+  .ring.r2 {
+    inset: 14px;
+    border-bottom-color: var(--magenta);
+    border-left-color: var(--magenta);
+    filter: drop-shadow(0 0 8px var(--magenta));
+    animation: spin 3s linear infinite reverse;
+  }
+  .ring.r3 {
+    inset: 28px;
+    border: 2px dashed rgba(166, 159, 199, .45);
+    animation: spin 12s linear infinite;
+  }
+  .core {
+    position: absolute; inset: 0;
+    display: grid; place-items: center;
+  }
+  .core svg {
+    width: 44px; height: 44px;
+    filter: drop-shadow(0 0 10px rgba(0, 240, 255, .8));
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes pulse { 50% { transform: scale(1.12); opacity: .85; } }
+
+  /* Texto */
+  .brand {
+    font-size: .95rem;
+    font-weight: 600;
+    letter-spacing: .14em;
+    color: var(--cyan);
+    text-shadow: 0 0 12px rgba(0, 240, 255, .7);
+    margin-bottom: 1rem;
+  }
+  h1 {
+    font-size: clamp(1.5rem, 4.6vw, 2.1rem);
+    font-weight: 700;
+    line-height: 1.25;
+    margin-bottom: .9rem;
+  }
+  h1 span {
+    background: linear-gradient(90deg, var(--cyan), var(--magenta));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  p {
+    color: var(--muted);
+    font-weight: 300;
+    font-size: 1.02rem;
+    line-height: 1.6;
+    max-width: 38ch;
+    margin: 0 auto;
+  }
+
+  /* Barra de progreso indeterminada */
+  .bar {
+    margin: 2rem auto 0;
+    width: 70%;
+    height: 4px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, .1);
+    overflow: hidden;
+  }
+  .bar::before {
+    content: "";
+    display: block;
+    height: 100%;
+    width: 38%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--cyan), var(--magenta));
+    box-shadow: 0 0 14px var(--cyan);
+    animation: slide 1.8s ease-in-out infinite;
+  }
+  @keyframes slide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(263%); }
+  }
+
+  .status {
+    margin-top: 1.4rem;
+    font-size: .82rem;
+    color: var(--muted);
+    display: inline-flex; align-items: center; gap: .55rem;
+  }
+  .status i {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: #3dffa2;
+    box-shadow: 0 0 10px #3dffa2;
+    animation: blink 1.6s ease-in-out infinite;
+  }
+  @keyframes blink { 50% { opacity: .3; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before { animation-duration: 40s !important; }
+  }
 </style>
 </head>
 <body>
+  <div class="glow a"></div>
+  <div class="glow b"></div>
+  <div class="glow c"></div>
+  <div class="grid"></div>
 
-<div class="bg"></div>
-
-<!-- LOCK SCREEN -->
-<div id="lockScreen" class="lock-screen">
-  <div class="lock-box">
-    <div class="lock-icon">KAKAKA</div>
-    <div style="font-family:'Orbitron',sans-serif;font-size:22px;font-weight:800;margin-bottom:8px">AXELION<span style="color:var(--accent)">LAUNCHER</span></div>
-    <div class="panel-title" id="lockTitle">Enter Master Password</div>
-    <div style="margin:20px 0"><input id="masterPassInput" type="password" class="input" placeholder="Master Password" style="padding-left:16px"></div>
-    <button id="unlockBtn" class="btn btn-primary">UNLOCK LAUNCHER</button>
-    <div id="lockError" style="color:var(--danger);font-size:12px;margin-top:12px;display:none">Contraseña incorrecta</div>
-  </div>
-</div>
-
-<!-- MAIN -->
-<div class="wrapper" id="mainWrapper" style="display:none">
-  <div id="mainCard" class="card">
-    <header class="header">
-      <div class="logo">AXELION<span>LAUNCHER</span></div>
-      <div class="profile">
-        <canvas id="profileAvatar3D"></canvas>
-        <div>
-          <div id="profileName" class="font-semibold">Guest</div>
-          <div id="authBadge" class="badge">Local Account</div>
-        </div>
-      </div>
-    </header>
-
-    <div class="split">
-      <div>
-        <div class="panel-title">Account & Identity</div>
-        <button id="authBtn" class="btn btn-secondary">Login / Register</button>
-        <button id="logoutBtn" class="btn btn-secondary" style="display:none">Logout</button>
-        <div>
-          <label class="label">USERNAME</label>
-          <div class="input-wrapper">
-            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-            <input id="usernameInput" type="text" class="input" placeholder="Enter Username..." maxlength="16">
-          </div>
-        </div>
-        <div class="panel-title">3D Skin Preview</div>
-        <div class="viewer-box">
-          <canvas id="mainSkinViewer"></canvas>
-          <input type="file" id="skinFileInput" accept=".png" class="file-input">
-          <button id="uploadBtn" class="upload-btn">Upload Custom Skin (.png)</button>
-          <button id="resetSkinBtn" class="upload-btn">Reset to Default Skin</button>
-        </div>
-      </div>
-      <div>
-        <div class="panel-title">Engine & Tools</div>
-        <button id="changePassBtn" class="btn btn-secondary">Change Master Password</button>
-        <button id="repairBtn" class="btn btn-secondary">Repair Files</button>
-        <button id="clearCacheBtn" class="btn btn-danger">Clear All Data</button>
-        <div style="margin-top:16px">
-          <label class="label">EAGLER CRAFT CLIENT</label>
-          <div class="input-wrapper">
-            <svg class="input-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"></rect></svg>
-            <select id="clientSelect" class="select">
-              <option value="RESENT">Resent Client</option>
-              <option value="EB_CLIENT">EB Client</option>
-              <option value="MODERN">Modern Client</option>
-              <option value="PIXEL">PixelClient</option>
-            </select>
-          </div>
-        </div>
-        <div class="slider-row">
-          <label class="label">RAM ALLOCATION: <span id="ramVal">4096MB</span></label>
-          <input type="range" min="2048" max="8192" step="512" value="4096" class="slider" id="ramSlider">
-          <div class="ram-info">Uso actual: <span id="ramUsage">0MB</span></div>
-        </div>
-        <div class="toggle-row"><span class="text-sm">FPS Stabilization Hook</span><div class="toggle" id="fpsToggle"><div class="toggle-knob"></div></div></div>
-        <div class="toggle-row"><span class="text-sm">Dynamic Canvas Buffering</span><div class="toggle active" id="bufferToggle"><div class="toggle-knob"></div></div></div>
-        <button id="launchBtn" class="launch-btn">LAUNCH AXELION</button>
+  <main role="status" aria-live="polite">
+    <div class="loader" aria-hidden="true">
+      <div class="ring r1"></div>
+      <div class="ring r2"></div>
+      <div class="ring r3"></div>
+      <div class="core">
+        <svg viewBox="0 0 48 48" fill="none" stroke="#00f0ff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M24 5 41 15v18L24 43 7 33V15z"/>
+          <path d="M16 32 24 15l8 17M19.5 26h9" stroke="#ff2bd6"/>
+        </svg>
       </div>
     </div>
-    <div id="splash" class="splash"><div class="loader"></div><div id="logText" class="log-text">Initializing Axelion Core...</div><div class="progress"><div id="progressBar" class="progress-bar"></div></div></div>
-  </div>
-</div>
 
-<div id="changePassModal" class="modal"><div class="auth-box"><div class="panel-title">Change Master Password</div><div style="margin:12px 0"><input id="oldPass" type="password" class="input" placeholder="Current Password"></div><div style="margin:12px 0"><input id="newPass" type="password" class="input" placeholder="New Password"></div><button id="saveNewPass" class="btn btn-primary">Save</button><button id="closeChangePass" class="btn btn-secondary">Cancel</button></div></div>
-<div id="authModal" class="modal"><div class="auth-box"><div class="tabs"><button class="tab-btn active" id="loginTab">Login</button><button class="tab-btn" id="registerTab">Register</button></div><div><label class="label">USERNAME</label><input id="authUsername" type="text" class="input" placeholder="Username"></div><div style="margin:12px 0"><label class="label">PASSWORD</label><input id="authPassword" type="password" class="input" placeholder="Password"></div><button id="authSubmit" class="btn btn-primary" style="margin-top:16px">Login</button><button id="closeAuth" class="btn btn-secondary">Cancel</button></div></div>
-<div id="toast" class="toast"></div>
+    <div class="brand">AXELION</div>
+    <h1>Estamos trabajando en <span>Axelion Launcher</span></h1>
+    <p>Estamos preparando mejoras para ofrecerte una mejor experiencia. Por favor, vuelve más tarde.</p>
 
-<script>
-/* ========== CONFIG ========== */
-const CONFIG = {STORAGE_KEY: "axelion_launcher_v1.2",MASTER_KEY: "axelion_master_pass",CLIENTS: {RESENT: "https://elite4r.github.io/Resent-Client/game.html",EB_CLIENT: "https://launcher.eb-bridging.pro/",MODERN: "https://modernclient.online/",PIXEL: "https://pixellauncher.onrender.com/"}}
-const hash = s => { let h=0; for(let i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h|=0} return h.toString() }
-
-/* ========== STATE ========== */
-const State = {
-  data: {currentUser: null, users: {}, temp: {skin: null, ram: 4096, client: "RESENT", fpsHook: false, buffer: true}},
-  load(){ try{ const saved = localStorage.getItem(CONFIG.STORAGE_KEY); if(saved) this.data = JSON.parse(saved) }catch(e){} },
-  save(){ try{ localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(this.data)) }catch(e){UI.toast("Error guardando")} },
-  getUserData(){ return this.data.currentUser? this.data.users[this.data.currentUser] : this.data.temp }
-}
-State.load()
-
-/* ========== UI ========== */
-const UI = { toast(msg){ const t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 3000) } }
-
-/* ========== LOCK ========== */
-const Lock = {
-  init(){
-    const hasPass = localStorage.getItem(CONFIG.MASTER_KEY);
-    document.getElementById('lockTitle').textContent = hasPass? 'Enter Master Password' : 'Create Master Password';
-    document.getElementById('unlockBtn').onclick = ()=> this.unlock();
-  },
-  unlock(){
-    const input = document.getElementById('masterPassInput').value;
-    const saved = localStorage.getItem(CONFIG.MASTER_KEY);
-    if(!saved){ localStorage.setItem(CONFIG.MASTER_KEY, hash(input)); UI.toast('Contraseña maestra creada'); this.open(); }
-    else { if(hash(input)===saved) this.open(); else document.getElementById('lockError').style.display='block'; }
-  },
-  open(){ document.getElementById('lockScreen').style.display='none'; document.getElementById('mainWrapper').style.display='flex'; App.init(); }
-}
-Lock.init()
-
-/* ========== VIEWER ========== */
-const Viewer = {
-  main: null, profile: null,
-  init(){
-    this.main = new skinview3d.SkinViewer({canvas:document.getElementById("mainSkinViewer"),width:400,height:280,skin:"https://minotar.net/skin/Steve"});
-    this.main.autoRotate = false;
-    this.profile = new skinview3d.SkinViewer({canvas:document.getElementById("profileAvatar3D"),width:36,height:36,skin:"https://minotar.net/skin/Steve"});
-    this.profile.autoRotate = true; this.profile.autoRotateSpeed = 0.5;
-  },
-  loadSkin(url){ this.main.loadSkin(url, {renderUnavailable: false}); this.profile.loadSkin(url, {renderUnavailable: false}); },
-  reset(){ this.loadSkin("https://minotar.net/skin/Steve") }
-}
-
-/* ========== AUTH ========== */
-const Auth = {
-  mode: 'login',
-  init(){
-    document.getElementById('authBtn').onclick = ()=> document.getElementById('authModal').style.display='flex';
-    document.getElementById('closeAuth').onclick = ()=> document.getElementById('authModal').style.display='none';
-    document.getElementById('logoutBtn').onclick = ()=> this.logout();
-    document.getElementById('loginTab').onclick = ()=> this.setMode('login');
-    document.getElementById('registerTab').onclick = ()=> this.setMode('register');
-    document.getElementById('authSubmit').onclick = ()=> this.submit();
-  },
-  setMode(m){
-    this.mode = m;
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-    document.getElementById(m+'Tab').classList.add('active');
-    document.getElementById('authSubmit').textContent = m==='login'? 'Login' : 'Register';
-  },
-  submit(){
-    const u = document.getElementById('authUsername').value.trim();
-    const p = document.getElementById('authPassword').value;
-    if(!u||!p) return UI.toast('Completa todos los campos');
-    if(this.mode==='register'){
-      if(State.data.users[u]) return UI.toast('Usuario ya existe');
-      State.data.users[u] = {password:hash(p),skin:null,ram:4096,client:"RESENT",fpsHook:false,buffer:true};
-      UI.toast('Cuenta creada!')
-    } else {
-      if(!State.data.users[u] || State.data.users[u].password!==hash(p)) return UI.toast('Credenciales incorrectas');
-      UI.toast('Bienvenido a Axelion!')
-    }
-    State.data.currentUser = u; State.save(); this.close(); App.restoreUI();
-  },
-  logout(){ State.data.currentUser = null; State.save(); App.restoreUI(); UI.toast('Sesión cerrada') },
-  close(){ document.getElementById('authModal').style.display='none'; document.getElementById('authUsername').value=''; document.getElementById('authPassword').value='' }
-}
-
-/* ========== APP ========== */
-const App = {
-  init(){ Viewer.init(); Auth.init(); this.bindEvents(); this.restoreUI(); this.startRamMonitor(); },
-  bindEvents(){
-    document.getElementById('usernameInput').oninput = e => { if(State.data.currentUser) return; Viewer.loadSkin(`https://minotar.net/skin/${e.target.value||'Steve'}`) };
-    document.getElementById('clientSelect').onchange = e => this.update('client', e.target.value);
-    document.getElementById('ramSlider').oninput = e => {document.getElementById('ramVal').textContent=e.target.value+'MB'; this.update('ram', parseInt(e.target.value))};
-    document.getElementById('fpsToggle').onclick = () => this.toggle('fpsHook');
-    document.getElementById('bufferToggle').onclick = () => this.toggle('buffer');
-    document.getElementById('uploadBtn').onclick = ()=>document.getElementById('skinFileInput').click();
-    document.getElementById('skinFileInput').onchange = e => this.uploadSkin(e);
-    document.getElementById('resetSkinBtn').onclick = ()=> this.resetSkin();
-    document.getElementById('changePassBtn').onclick = ()=>document.getElementById('changePassModal').style.display='flex';
-    document.getElementById('closeChangePass').onclick = ()=>document.getElementById('changePassModal').style.display='none';
-    document.getElementById('saveNewPass').onclick = ()=> this.changeMasterPass();
-    document.getElementById('repairBtn').onclick = ()=> this.repair();
-    document.getElementById('clearCacheBtn').onclick = ()=> this.clearCache();
-    document.getElementById('launchBtn').onclick = ()=> Launcher.start();
-  },
-  update(key, val){ const data = State.getUserData(); data[key] = val; State.save(); },
-  toggle(key){ const el = document.getElementById(key==='fpsHook'?'fpsToggle':'bufferToggle'); el.classList.toggle('active'); this.update(key, el.classList.contains('active')); },
-  uploadSkin(e){
-    const file = e.target.files[0]; if(!file) return;
-    if(file.size > 500000) return UI.toast("Skin muy pesada. Max 500KB");
-    const reader = new FileReader();
-    reader.onload = ev => {
-      Viewer.loadSkin(ev.target.result);
-      if(State.data.currentUser){ State.data.users[State.data.currentUser].skin = ev.target.result; }
-      else { State.data.temp.skin = ev.target.result; }
-      State.save(); UI.toast('Skin guardada en Axelion');
-    };
-    reader.readAsDataURL(file);
-  },
-  resetSkin(){
-    Viewer.reset();
-    if(State.data.currentUser){ State.data.users[State.data.currentUser].skin = null; }
-    else { State.data.temp.skin = null; }
-    State.save(); UI.toast('Skin reseteada');
-  },
-  changeMasterPass(){
-    const oldP = document.getElementById('oldPass').value; const newP = document.getElementById('newPass').value;
-    if(hash(oldP)!==localStorage.getItem(CONFIG.MASTER_KEY)) return UI.toast('Contraseña actual incorrecta');
-    localStorage.setItem(CONFIG.MASTER_KEY, hash(newP)); UI.toast('Contraseña actualizada'); document.getElementById('changePassModal').style.display='none';
-  },
-  repair(){ UI.toast('Verificando archivos... Todo OK'); },
-  clearCache(){ if(confirm("¿Borrar todos los datos de Axelion?")){ localStorage.clear(); UI.toast('Cache limpiado'); setTimeout(()=>location.reload(), 1500) } },
-  startRamMonitor(){ setInterval(()=>{ const usage = Math.floor(Math.random()*500)+100; document.getElementById('ramUsage').textContent = usage+'MB'; },2000) },
-  restoreUI(){
-    const data = State.getUserData(); const logged =!!State.data.currentUser;
-    document.getElementById('profileName').textContent = logged? State.data.currentUser : 'Guest';
-    document.getElementById('authBadge').style.display = logged? 'inline-block' : 'none';
-    document.getElementById('authBtn').style.display = logged? 'none' : 'block';
-    document.getElementById('logoutBtn').style.display = logged? 'block' : 'none';
-    document.getElementById('usernameInput').value = logged? State.data.currentUser : '';
-    document.getElementById('usernameInput').disabled = logged;
-    document.getElementById('clientSelect').value = data.client;
-    document.getElementById('ramSlider').value = data.ram;
-    document.getElementById('ramVal').textContent = data.ram + 'MB';
-    document.getElementById('fpsToggle').classList.toggle('active', data.fpsHook);
-    document.getElementById('bufferToggle').classList.toggle('active', data.buffer);
-    setTimeout(()=>{ if(data.skin && data.skin.startsWith('data:image')){ Viewer.loadSkin(data.skin); } else { Viewer.loadSkin(`https://minotar.net/skin/${logged?State.data.currentUser:'Steve'}`); } }, 100);
-  }
-}
-
-/* ========== LAUNCHER - VENTANA EXTERNA ========== */
-const Launcher = {
-  start(){ document.getElementById('splash').style.display='flex'; this.runProgress(); },
-  runProgress(){
-    const logs = ["Initializing Axelion Core...","Loading user profiles...","Allocating memory pools...","Opening game window..."];
-    let progress=0, i=0; document.getElementById('logText').style.opacity='1';
-    const interval = setInterval(()=>{
-      progress += Math.random()*20+10; if(progress>100)progress=100;
-      document.getElementById('progressBar').style.width=progress+'%';
-      if(i<logs.length-1 && progress >= ((i+1)/logs.length)*100){ i++; document.getElementById('logText').style.opacity='0'; setTimeout(()=>{document.getElementById('logText').textContent=logs[i];document.getElementById('logText').style.opacity='1'},250); }
-      if(progress>=100){clearInterval(interval); setTimeout(()=>{document.getElementById('splash').style.display='none';this.open()},600)}
-    },800);
-  },
-  open(){
-    const client = document.getElementById('clientSelect').value;
-    const url = CONFIG.CLIENTS[client];
-    const ram = document.getElementById('ramSlider').value;
-    UI.toast(`Launching ${client} with ${ram}MB RAM`);
-    window.open(url, '_blank', `width=1280,height=720,menubar=no,toolbar=no,location=no,status=no`);
-  }
-}
-</script>
+    <div class="bar" aria-hidden="true"></div>
+    <div class="status"><i></i> Mantenimiento en curso</div>
+  </main>
 </body>
 </html>
