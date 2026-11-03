@@ -10,57 +10,76 @@
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:'Instrument Sans',sans-serif;background:#060608;color:#fff;overflow:hidden;width:100vw;height:100vh}
 .bg{position:fixed;inset:0;background:#060608;overflow:hidden}
-.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);background-size:40px 40px;mask-image:radial-gradient(800px at 50% 50%, black, transparent)}
-.orb{position:absolute;border-radius:50%;filter:blur(90px);mix-blend-mode:screen;opacity:.8}
-.orb1{width:700px;height:700px;background:radial-gradient(circle, rgba(120,119,255,0.9), transparent 70%);top:-200px;left:-200px;animation:f1 20s infinite alternate}
-.orb2{width:600px;height:600px;background:radial-gradient(circle, rgba(56,189,248,0.6), transparent 70%);bottom:-150px;right:-100px;animation:f2 24s infinite alternate}
-@keyframes f1{to{transform:translate(60px,40px) scale(1.1)}}@keyframes f2{to{transform:translate(-50px,-30px) scale(1.15)}}
-.card{position:relative;background:rgba(16,16,20,0.55);backdrop-filter:blur(40px) saturate(1.5);-webkit-backdrop-filter:blur(40px);border:1px solid rgba(255,255,255,0.08);border-radius:28px;box-shadow:0 20px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06)}
-.btn{width:100%;background:rgba(255,255,255,0.95);color:#000;font-weight:800;border-radius:16px;padding:14px;border:none;cursor:pointer;transition:.2s}
-.btn:hover{transform:translateY(-1px)}
-.btn-ghost{background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(20px)}
-.input{width:100%;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:14px 16px;color:#fff;outline:none}
-.input:focus{border-color:rgba(120,119,255,0.4);box-shadow:0 0 0 4px rgba(120,119,255,0.1)}
-.overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.4);backdrop-filter:blur(30px);display:flex;align-items:center;justify-content:center;padding:20px}
-.progress{height:4px;background:rgba(255,255,255,0.08);border-radius:100px;overflow:hidden}
-.bar{height:100%;width:0%;background:linear-gradient(90deg,#7877FF,#38BDF8);box-shadow:0 0 20px rgba(120,119,255,0.6);transition:width 1s linear}
-.spin{animation:spin 1s linear infinite}
+.grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);background-size:50px 50px;mask-image:radial-gradient(900px at 50% 50%, black, transparent);animation:gridMove 20s linear infinite}
+@keyframes gridMove{0%{transform:translate(0,0)}100%{transform:translate(50px,50px)}}
+.orb{position:absolute;border-radius:50%;filter:blur(100px);mix-blend-mode:screen;opacity:.9}
+.orb1{width:800px;height:800px;background:radial-gradient(circle, rgba(120,119,255,1), rgba(120,119,255,0) 70%);top:-250px;left:-250px;animation:orbFloat1 12s infinite alternate ease-in-out}
+.orb2{width:700px;height:700px;background:radial-gradient(circle, rgba(56,189,248,0.8), rgba(56,189,248,0) 70%);bottom:-200px;right:-150px;animation:orbFloat2 14s infinite alternate ease-in-out}
+.orb3{width:500px;height:500px;background:radial-gradient(circle, rgba(168,85,247,0.6), transparent 70%);top:50%;left:50%;animation:orbFloat3 18s infinite alternate}
+@keyframes orbFloat1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(80px,60px) scale(1.2)}}
+@keyframes orbFloat2{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-70px,-50px) scale(1.3)}}
+@keyframes orbFloat3{0%{transform:translate(-50%,-50%) scale(1)}100%{transform:translate(-40%,-60%) scale(1.4)}}
+.card{position:relative;background:rgba(16,16,20,0.6);backdrop-filter:blur(50px) saturate(1.8);-webkit-backdrop-filter:blur(50px);border:1px solid rgba(255,255,255,0.08);border-radius:28px;box-shadow:0 20px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08);animation:cardIn 0.8s ease-out, cardFloat 6s infinite ease-in-out}
+@keyframes cardIn{0%{opacity:0;transform:translateY(30px) scale(0.95)}100%{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes cardFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.card:hover{box-shadow:0 30px 100px rgba(0,0,0,0.8), 0 0 40px rgba(120,119,255,0.15), inset 0 1px 0 rgba(255,255,255,0.1);border-color:rgba(255,255,255,0.12);transition:0.4s}
+.btn{position:relative;width:100%;background:linear-gradient(135deg,#fff,#e0e0ff);color:#000;font-weight:800;border-radius:16px;padding:14px;border:none;cursor:pointer;overflow:hidden;transition:0.3s;animation:btnPulse 2s infinite}
+.btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.8),transparent);animation:shine 3s infinite}
+@keyframes shine{0%{left:-100%}50%,100%{left:100%}}
+@keyframes btnPulse{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,0.2)}50%{box-shadow:0 0 0 10px rgba(255,255,255,0)}}
+.btn:hover{transform:translateY(-2px) scale(1.02);box-shadow:0 10px 30px rgba(255,255,255,0.3)}
+.btn:active{transform:scale(0.98)}
+.btn-ghost{background:rgba(255,255,255,0.06);color:#fff;border:1px solid rgba(255,255,255,0.08);backdrop-filter:blur(20px);transition:0.3s}
+.btn-ghost:hover{background:rgba(255,255,255,0.1);border-color:rgba(120,119,255,0.3);transform:translateY(-1px);box-shadow:0 0 20px rgba(120,119,255,0.2)}
+.input{width:100%;background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:14px 16px;color:#fff;outline:none;transition:0.3s}
+.input:focus{border-color:rgba(120,119,255,0.5);box-shadow:0 0 0 4px rgba(120,119,255,0.15), 0 0 20px rgba(120,119,255,0.2);transform:scale(1.01);background:rgba(255,255,255,0.08)}
+.input:hover{border-color:rgba(255,255,255,0.12);background:rgba(255,255,255,0.06)}
+.overlay{position:fixed;inset:0;z-index:100;background:rgba(0,0,0,0.5);backdrop-filter:blur(40px);display:flex;align-items:center;justify-content:center;padding:20px;animation:overlayIn 0.5s ease-out}
+@keyframes overlayIn{0%{opacity:0;backdrop-filter:blur(0)}100%{opacity:1;backdrop-filter:blur(40px)}}
+.progress{height:5px;background:rgba(255,255,255,0.08);border-radius:100px;overflow:hidden;position:relative}
+.bar{height:100%;width:0%;background:linear-gradient(90deg,#7877FF,#38BDF8,#a855f7);background-size:200% 100%;box-shadow:0 0 20px rgba(120,119,255,0.6);transition:width 0.8s ease-out;animation:barGradient 2s infinite linear}
+@keyframes barGradient{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+.spin{animation:spin 0.8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.label{font-size:10px;letter-spacing:1.2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:8px;display:block;font-weight:700}
-.shake{animation:shake .4s}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
-/* VENTANA FLOTANTE */
-#clientWindowWrap{position:fixed;inset:0;z-index:200;display:none;background:rgba(0,0,0,0.3);backdrop-filter:blur(10px)}
-.client-float{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;max-width:1000px;height:75%;background:#0f0f12;border:1px solid rgba(255,255,255,0.1);border-radius:20px;overflow:hidden;box-shadow:0 30px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.05) inset;display:flex;flex-direction:column;resize:both}
-.client-float-top{height:42px;background:rgba(20,20,25,0.9);border-bottom:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:space-between;padding:0 12px;cursor:move;user-select:none}
+.label{font-size:10px;letter-spacing:1.2px;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:8px;display:block;font-weight:700;animation:labelGlow 3s infinite}
+@keyframes labelGlow{0%,100%{color:rgba(255,255,255,0.5)}50%{color:rgba(120,119,255,0.8)}}
+.shake{animation:shake 0.4s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.title-glow{animation:titleGlow 4s infinite alternate}
+@keyframes titleGlow{0%{text-shadow:0 0 10px rgba(120,119,255,0.3)}100%{text-shadow:0 0 30px rgba(120,119,255,0.6), 0 0 60px rgba(56,189,248,0.3)}}
+.skin-glow{animation:skinGlow 5s infinite alternate}
+@keyframes skinGlow{0%{box-shadow:0 0 20px rgba(120,119,255,0.1)}100%{box-shadow:0 0 50px rgba(120,119,255,0.3), 0 0 80px rgba(56,189,248,0.15)}}
+.bounce{animation:bounce 1s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.ram-glow{transition:0.3s}
+.ram-glow:hover{box-shadow:0 0 20px rgba(120,119,255,0.4)}
 </style>
 </head>
 <body>
-<div class="bg"><div class="grid"></div><div class="orb orb1"></div><div class="orb orb2"></div></div>
+<div class="bg"><div class="grid"></div><div class="orb orb1"></div><div class="orb orb2"></div><div class="orb orb3"></div></div>
 
 <div id="updateOverlay" class="overlay">
   <div class="card" style="width:100%;max-width:420px;padding:32px">
     <div id="updateState1">
-      <div style="width:56px;height:56px;margin:0 auto 20px;border-radius:18px;background:rgba(255,255,255,0.9);display:flex;align-items:center;justify-content:center"><div style="width:24px;height:24px;border-radius:8px;background:linear-gradient(135deg,#7877FF,#38BDF8)"></div></div>
-      <h2 style="text-align:center;font-size:18px;font-weight:800">Actualización disponible</h2>
-      <p style="text-align:center;font-size:12px;color:rgba(255,255,255,0.5);margin-top:6px">Nueva versión con mejoras de rendimiento y seguridad.</p>
-      <div style="margin:24px 0;padding:16px;background:rgba(255,255,255,0.03);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.06);border-radius:18px">
-        <p style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:8px;letter-spacing:1px;font-weight:700">NOVEDADES</p>
-        <p style="font-size:12px;color:rgba(255,255,255,0.7);line-height:2">• Inicio más rápido<br>• Seguridad mejorada<br>• Interfaz renovada<br>• Optimización de memoria</p>
+      <div class="bounce" style="width:64px;height:64px;margin:0 auto 20px;border-radius:20px;background:linear-gradient(135deg,#fff,#c0c0ff);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(120,119,255,0.4)"><div style="width:28px;height:28px;border-radius:10px;background:linear-gradient(135deg,#7877FF,#38BDF8);animation:spin 3s linear infinite"></div></div>
+      <h2 class="title-glow" style="text-align:center;font-size:19px;font-weight:800">Actualización disponible</h2>
+      <p style="text-align:center;font-size:12px;color:rgba(255,255,255,0.5);margin-top:6px;animation:labelGlow 2s infinite">Nueva versión con mejoras épicas</p>
+      <div style="margin:24px 0;padding:16px;background:rgba(255,255,255,0.03);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.06);border-radius:18px;animation:cardFloat 5s infinite">
+        <p style="font-size:10px;color:rgba(255,255,255,0.4);margin-bottom:8px;letter-spacing:1px;font-weight:700">NOVEDADES ✨</p>
+        <p style="font-size:12px;color:rgba(255,255,255,0.7);line-height:2">• Inicio 3x más rápido 🚀<br>• Seguridad mejorada 🔒<br>• Interfaz renovada ✨<br>• Optimización extrema ⚡</p>
       </div>
       <button id="btnUpdate" class="btn">Actualizar ahora</button>
     </div>
     <div id="updateState2" style="display:none;text-align:center">
-      <div style="width:56px;height:56px;margin:0 auto 16px;border-radius:18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center"><div style="width:22px;height:22px;border:2px solid rgba(255,255,255,0.1);border-top-color:#fff;border-radius:50%" class="spin"></div></div>
-      <h2 style="font-size:16px;font-weight:800">Instalando actualización</h2>
-      <p style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:4px">No cierres esta ventana • <span id="timeLeft">1:00</span></p>
+      <div style="width:60px;height:60px;margin:0 auto 16px;border-radius:18px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center"><div style="width:26px;height:26px;border:3px solid rgba(255,255,255,0.1);border-top-color:#fff;border-radius:50%" class="spin"></div></div>
+      <h2 style="font-size:16px;font-weight:800">Instalando...</h2>
+      <p style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:4px"><span id="timeLeft">1:00</span></p>
       <div class="progress" style="margin:20px 0 8px"><div id="pBar2" class="bar"></div></div>
-      <div style="display:flex;justify-content:space-between"><p id="pText2" style="font-size:10px;color:rgba(255,255,255,0.4)">Preparando archivos...</p><p id="pPercent2" style="font-size:10px;color:rgba(255,255,255,0.3)">0%</p></div>
+      <p id="pText2" style="font-size:10px;color:rgba(255,255,255,0.4)">Preparando...</p>
     </div>
     <div id="updateState3" style="display:none;text-align:center">
-      <div style="width:56px;height:56px;margin:0 auto 16px;border-radius:18px;background:#22C55E;display:flex;align-items:center;justify-content:center;font-size:20px">✓</div>
-      <h2 style="font-size:18px;font-weight:800">Actualización completada</h2>
-      <p style="font-size:12px;color:rgba(255,255,255,0.5);margin-top:6px">Iniciando launcher...</p>
+      <div class="bounce" style="width:64px;height:64px;margin:0 auto 16px;border-radius:20px;background:#22C55E;display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 0 30px rgba(34,197,94,0.5)">✓</div>
+      <h2 class="title-glow" style="font-size:18px;font-weight:800">¡Completado!</h2>
       <button id="btnContinue" class="btn" style="margin-top:20px">Continuar</button>
     </div>
   </div>
@@ -68,7 +87,7 @@ body{font-family:'Instrument Sans',sans-serif;background:#060608;color:#fff;over
 
 <div id="lockOverlay" class="overlay" style="display:none">
   <div id="lockCard" class="card" style="width:100%;max-width:360px;padding:28px">
-    <h2 id="lockTitle" style="font-size:16px;font-weight:800;text-align:center">AXELION</h2>
+    <h2 id="lockTitle" class="title-glow" style="font-size:16px;font-weight:800;text-align:center">AXELION</h2>
     <p id="lockSub" style="font-size:11px;color:rgba(255,255,255,0.4);text-align:center;margin:6px 0 18px"></p>
     <input id="lockInput" type="password" class="input" placeholder="Contraseña">
     <button id="lockBtn" class="btn" style="margin-top:12px">Continuar</button>
@@ -78,20 +97,9 @@ body{font-family:'Instrument Sans',sans-serif;background:#060608;color:#fff;over
 
 <div id="loadingOverlay" class="overlay" style="display:none">
   <div class="card" style="width:100%;max-width:360px;padding:28px;text-align:center">
-    <div style="width:40px;height:40px;margin:0 auto 12px;border-radius:12px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center"><div style="width:18px;height:18px;border:2px solid rgba(255,255,255,0.1);border-top-color:#fff;border-radius:50%" class="spin"></div></div>
+    <div style="width:48px;height:48px;margin:0 auto 12px;border-radius:14px;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center"><div style="width:22px;height:22px;border:3px solid rgba(255,255,255,0.1);border-top-color:#fff;border-radius:50%" class="spin"></div></div>
     <p id="loadingClient" style="font-size:12px;color:rgba(255,255,255,0.6)"></p>
     <div class="progress" style="margin:14px 0"><div id="loadingBar" class="bar"></div></div>
-  </div>
-</div>
-
-<!-- VENTANA FLOTANTE DRAGGABLE -->
-<div id="clientWindowWrap">
-  <div id="clientFloat" class="client-float">
-    <div id="clientFloatTop" class="client-float-top">
-      <div style="display:flex;align-items:center;gap:8px"><div style="display:flex;gap:5px"><div style="width:10px;height:10px;border-radius:50%;background:#ff5f56"></div><div style="width:10px;height:10px;border-radius:50%;background:#ffbd2e"></div><div style="width:10px;height:10px;border-radius:50%;background:#27c93f"></div></div><p id="clientWindowTitle" style="font-size:12px;font-weight:700;margin-left:10px">Cliente</p></div>
-      <div style="display:flex;gap:6px"><button id="clientMax" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:5px 10px;font-size:11px;color:#fff;cursor:pointer">⛶</button><button id="clientClose" style="background:#ef4444;border-radius:8px;padding:5px 10px;font-size:11px;color:#fff;border:none;font-weight:700;cursor:pointer">✕</button></div>
-    </div>
-    <iframe id="clientFrame" style="flex:1;width:100%;border:none;background:#000;border-radius:0 0 20px 20px" allow="fullscreen; gamepad" allowfullscreen></iframe>
   </div>
 </div>
 
@@ -99,17 +107,17 @@ body{font-family:'Instrument Sans',sans-serif;background:#060608;color:#fff;over
   <div class="card" style="width:100%;max-width:980px;padding:20px;display:grid;grid-template-columns:1.1fr 0.9fr;gap:16px">
     <style>@media(max-width:800px){#app .card{grid-template-columns:1fr!important;overflow:auto;max-height:95vh}}</style>
     <div>
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><p style="font-weight:800;font-size:12px">AXELION</p><div style="display:flex;gap:6px"><span id="headerUser" style="font-size:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:5px 10px;border-radius:100px"></span><button id="btnLogout" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:5px 10px;color:rgba(255,255,255,0.5);font-size:10px;cursor:pointer">Salir</button></div></div>
-      <div style="padding:14px;background:rgba(255,255,255,0.03);backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,0.06);border-radius:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px"><p class="title-glow" style="font-weight:800;font-size:13px;letter-spacing:1px">AXELION</p><div style="display:flex;gap:6px"><span id="headerUser" style="font-size:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:5px 10px;border-radius:100px;animation:labelGlow 3s infinite"></span><button id="btnLogout" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:5px 10px;color:rgba(255,255,255,0.5);font-size:10px;cursor:pointer;transition:0.3s">Salir</button></div></div>
+      <div style="padding:14px;background:rgba(255,255,255,0.03);backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,0.06);border-radius:20px;transition:0.4s" onmouseover="this.style.transform='scale(1.01)';this.style.borderColor='rgba(120,119,255,0.2)'" onmouseout="this.style.transform='scale(1)';this.style.borderColor='rgba(255,255,255,0.06)'">
         <p class="label">Clientes</p>
         <select id="client" class="input" style="margin-top:6px"><option>Vanilla 26.2</option><option>Pixel client 1.8.8</option><option>Modern client 1.12.2</option><option>EB Client 1.8.9</option><option>Resent Client 1.8.9</option></select>
-        <div style="margin-top:12px"><label class="label">RAM</label><div style="display:flex;gap:10px;align-items:center"><input id="ram" type="range" min="2" max="16" value="4" style="flex:1;accent-color:#7877FF"><span id="ramVal" style="font-size:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:5px 10px;border-radius:100px">4 GB</span></div></div>
+        <div style="margin-top:12px"><label class="label">RAM</label><div style="display:flex;gap:10px;align-items:center"><input id="ram" type="range" min="2" max="16" value="4" style="flex:1;accent-color:#7877FF" class="ram-glow"><span id="ramVal" style="font-size:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);padding:5px 10px;border-radius:100px;animation:labelGlow 3s infinite">4 GB</span></div></div>
       </div>
-      <input id="username" class="input" placeholder="Tu nick" style="margin-top:12px">
-      <div style="margin-top:12px;padding:14px;background:rgba(255,255,255,0.03);backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,0.06);border-radius:20px"><p class="label">Cuenta</p><div id="accountLogged" style="display:none"><p style="font-size:12px">Conectado como <b id="accName"></b></p><button id="accLogout" style="margin-top:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:5px 10px;color:rgba(255,255,255,0.5);font-size:10px;cursor:pointer">Cambiar</button></div><div id="accountForm"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="accUser" class="input" placeholder="Nombre"><input id="accPass" type="password" class="input" placeholder="Contraseña"></div><div style="display:flex;gap:8px;margin-top:8px"><button id="btnAccRegister" class="btn" style="flex:1;padding:12px;font-size:11px">Crear</button><button id="btnAccLogin" class="btn btn-ghost" style="flex:1;padding:12px;font-size:11px">Entrar</button></div><p id="accError" style="font-size:10px;color:#ef4444;margin-top:6px;display:none"></p></div></div>
-      <button id="launch" class="btn" style="margin-top:12px;padding:15px">▶ INICIAR</button>
+      <input id="username" class="input" placeholder="Tu nick ✨" style="margin-top:12px">
+      <div style="margin-top:12px;padding:14px;background:rgba(255,255,255,0.03);backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,0.06);border-radius:20px;transition:0.3s"><p class="label">Cuenta</p><div id="accountLogged" style="display:none"><p style="font-size:12px">Conectado como <b id="accName"></b> 🔥</p><button id="accLogout" style="margin-top:8px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.08);border-radius:100px;padding:5px 10px;color:rgba(255,255,255,0.5);font-size:10px;cursor:pointer">Cambiar</button></div><div id="accountForm"><div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><input id="accUser" class="input" placeholder="Nombre"><input id="accPass" type="password" class="input" placeholder="Contraseña"></div><div style="display:flex;gap:8px;margin-top:8px"><button id="btnAccRegister" class="btn" style="flex:1;padding:12px;font-size:11px">Crear</button><button id="btnAccLogin" class="btn btn-ghost" style="flex:1;padding:12px;font-size:11px">Entrar</button></div><p id="accError" style="font-size:10px;color:#ef4444;margin-top:6px;display:none"></p></div></div>
+      <button id="launch" class="btn" style="margin-top:12px;padding:16px;font-size:14px;letter-spacing:0.5px">▶ INICIAR 🚀</button>
     </div>
-    <div><div style="background:rgba(255,255,255,0.03);backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:10px"><canvas id="skinViewer" width="320" height="340" style="width:100%;height:340px;border-radius:16px;background:radial-gradient(300px at 50% 0%, rgba(120,119,255,0.15), transparent 70%)"></canvas><div style="display:flex;gap:6px;margin-top:8px"><button id="bSteve" class="btn btn-ghost" style="flex:1;padding:10px;font-size:11px">Steve</button><button id="bAlex" class="btn btn-ghost" style="flex:1;padding:10px;font-size:11px">Alex</button><label class="btn btn-ghost" style="flex:1;padding:10px;font-size:11px;text-align:center;cursor:pointer"><input id="skinFile" type="file" accept=".png" style="display:none">Subir</label></div></div></div>
+    <div><div class="skin-glow" style="background:rgba(255,255,255,0.03);backdrop-filter:blur(30px);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:10px;transition:0.4s"><canvas id="skinViewer" width="320" height="340" style="width:100%;height:340px;border-radius:16px;background:radial-gradient(300px at 50% 0%, rgba(120,119,255,0.15), transparent 70%)"></canvas><div style="display:flex;gap:6px;margin-top:8px"><button id="bSteve" class="btn btn-ghost" style="flex:1;padding:10px;font-size:11px">Steve</button><button id="bAlex" class="btn btn-ghost" style="flex:1;padding:10px;font-size:11px">Alex</button><label class="btn btn-ghost" style="flex:1;padding:10px;font-size:11px;text-align:center;cursor:pointer"><input id="skinFile" type="file" accept=".png" style="display:none">Subir</label></div></div></div>
   </div>
 </div>
 
@@ -156,7 +164,6 @@ document.addEventListener('DOMContentLoaded', function(){
   document.getElementById('bSteve').onclick=function(){ setSkin('https://crafatar.com/skins/8667ba78-b993-4f93-beef-eb74e4cd3b5a','default'); };
   document.getElementById('bAlex').onclick=function(){ setSkin('https://crafatar.com/skins/4566e69f-cfbe-40d1-bf24-3c488b0d2a8','slim'); };
   document.getElementById('skinFile').addEventListener('change', function(e){ var f=e.target.files[0]; if(!f) return; var url=URL.createObjectURL(f); setSkin(url,'default'); });
-  
   document.getElementById('launch').onclick=function(){
     var selectedClient = document.getElementById('client').value;
     var link = CLIENT_LINKS[selectedClient];
@@ -170,45 +177,15 @@ document.addEventListener('DOMContentLoaded', function(){
         clearInterval(inter);
         setTimeout(function(){
           document.getElementById('loadingOverlay').style.display='none';
-          document.getElementById('clientWindowTitle').textContent = selectedClient;
-          document.getElementById('clientFrame').src = link;
-          document.getElementById('clientWindowWrap').style.display='block';
-        }, 500);
+          var w = 1100, h = 750;
+          var left = (screen.width/2)-(w/2);
+          var top = (screen.height/2)-(h/2);
+          var popup = window.open(link, selectedClient, `width=${w},height=${h},left=${left},top=${top},resizable=yes,scrollbars=no,toolbar=no,menubar=no,location=no,status=no`);
+          if(!popup){ alert("Activa ventanas emergentes"); }
+        }, 600);
       }
-    }, 200);
+    }, 250);
   };
-
-  // DRAGGABLE VENTANA FLOTANTE
-  var isDragging=false, startX, startY, origX, origY;
-  var floatWin=document.getElementById('clientFloat');
-  var topBar=document.getElementById('clientFloatTop');
-  topBar.addEventListener('mousedown', function(e){
-    isDragging=true;
-    startX=e.clientX; startY=e.clientY;
-    var rect=floatWin.getBoundingClientRect();
-    origX=rect.left; origY=rect.top;
-    floatWin.style.transform='none';
-    floatWin.style.left=origX+'px';
-    floatWin.style.top=origY+'px';
-  });
-  document.addEventListener('mousemove', function(e){
-    if(!isDragging) return;
-    var dx=e.clientX-startX, dy=e.clientY-startY;
-    floatWin.style.left=(origX+dx)+'px';
-    floatWin.style.top=(origY+dy)+'px';
-  });
-  document.addEventListener('mouseup', function(){ isDragging=false; });
-  
-  document.getElementById('clientClose').onclick=function(){
-    document.getElementById('clientWindowWrap').style.display='none';
-    document.getElementById('clientFrame').src='';
-    floatWin.style.top='50%'; floatWin.style.left='50%'; floatWin.style.transform='translate(-50%,-50%)';
-  };
-  document.getElementById('clientMax').onclick=function(){
-    if(floatWin.style.width==='100%'){ floatWin.style.width='90%'; floatWin.style.height='75%'; floatWin.style.top='50%'; floatWin.style.left='50%'; floatWin.style.transform='translate(-50%,-50%)'; }
-    else { floatWin.style.width='100%'; floatWin.style.height='100%'; floatWin.style.top='0'; floatWin.style.left='0'; floatWin.style.transform='none'; floatWin.style.borderRadius='0'; }
-  };
-  document.getElementById('clientWindowWrap').addEventListener('click', function(e){ if(e.target===this) document.getElementById('clientClose').click(); });
 });
 </script>
 </body>
