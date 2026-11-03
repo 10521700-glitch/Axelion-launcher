@@ -6,211 +6,98 @@
 <title>Axelion Launcher | En mantenimiento</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #05030f;
-    --cyan: #00f0ff;
-    --magenta: #ff2bd6;
-    --violet: #7a3cff;
-    --text: #f3f0ff;
-    --muted: #a69fc7;
+    --bg: #07070b;
+    --text: #f2f3f7;
+    --muted: #8b8d9c;
+    --neon: #00e5ff;
+    --neon2: #b44cff;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { height: 100%; }
   body {
     background: var(--bg);
     color: var(--text);
-    font-family: "Sora", "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
     display: grid;
     place-items: center;
     overflow: hidden;
     position: relative;
   }
 
-  /* Fondo neón */
-  .glow {
+  /* Toque neón en el fondo */
+  body::before {
+    content: "";
     position: fixed;
-    border-radius: 50%;
-    filter: blur(110px);
-    opacity: .55;
-    animation: drift 14s ease-in-out infinite alternate;
+    left: 50%; bottom: -38vh;
+    width: 120vmax; height: 70vh;
+    transform: translateX(-50%);
+    background: radial-gradient(ellipse at center,
+      rgba(0, 229, 255, .30) 0%,
+      rgba(180, 76, 255, .18) 38%,
+      transparent 70%);
+    filter: blur(50px);
+    animation: breathe 7s ease-in-out infinite;
     pointer-events: none;
   }
-  .glow.a { width: 50vmax; height: 50vmax; background: var(--cyan); top: -20vmax; left: -15vmax; }
-  .glow.b { width: 45vmax; height: 45vmax; background: var(--magenta); bottom: -20vmax; right: -15vmax; animation-delay: -5s; }
-  .glow.c { width: 30vmax; height: 30vmax; background: var(--violet); top: 30%; left: 40%; opacity: .35; animation-delay: -9s; }
-  @keyframes drift {
-    to { transform: translate(6vmax, 4vmax) scale(1.15); }
+  body::after {
+    content: "";
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--neon), var(--neon2), transparent);
+    box-shadow: 0 0 22px var(--neon), 0 0 60px rgba(180, 76, 255, .6);
+    opacity: .9;
   }
-  .grid {
-    position: fixed; inset: 0;
-    background-image:
-      linear-gradient(rgba(255,255,255,.045) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.045) 1px, transparent 1px);
-    background-size: 56px 56px;
-    mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
-    -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 75%);
-    pointer-events: none;
+  @keyframes breathe {
+    50% { opacity: .6; transform: translateX(-50%) scale(1.06); }
   }
 
-  /* Tarjeta */
   main {
     position: relative;
     z-index: 1;
-    width: min(92vw, 560px);
-    padding: 3.2rem 2.4rem 2.6rem;
     text-align: center;
-    background: rgba(12, 8, 30, .55);
-    border: 1px solid rgba(0, 240, 255, .28);
-    border-radius: 22px;
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    box-shadow:
-      0 0 0 1px rgba(255, 43, 214, .12),
-      0 0 40px rgba(0, 240, 255, .18),
-      0 0 90px rgba(255, 43, 214, .12);
+    padding: 2rem;
+    max-width: 520px;
   }
 
-  /* Símbolo giratorio */
-  .loader {
-    position: relative;
-    width: 128px; height: 128px;
-    margin: 0 auto 2rem;
-  }
-  .ring {
-    position: absolute; inset: 0;
-    border-radius: 50%;
-    border: 3px solid transparent;
-  }
-  .ring.r1 {
-    border-top-color: var(--cyan);
-    border-right-color: var(--cyan);
-    filter: drop-shadow(0 0 8px var(--cyan));
-    animation: spin 2.2s linear infinite;
-  }
-  .ring.r2 {
-    inset: 14px;
-    border-bottom-color: var(--magenta);
-    border-left-color: var(--magenta);
-    filter: drop-shadow(0 0 8px var(--magenta));
-    animation: spin 3s linear infinite reverse;
-  }
-  .ring.r3 {
-    inset: 28px;
-    border: 2px dashed rgba(166, 159, 199, .45);
-    animation: spin 12s linear infinite;
-  }
-  .core {
-    position: absolute; inset: 0;
-    display: grid; place-items: center;
-  }
-  .core svg {
+  /* Símbolo giratorio minimalista */
+  .spinner {
     width: 44px; height: 44px;
-    filter: drop-shadow(0 0 10px rgba(0, 240, 255, .8));
-    animation: pulse 2.4s ease-in-out infinite;
+    margin: 0 auto 2.2rem;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, .10);
+    border-top-color: var(--neon);
+    animation: spin 1.1s linear infinite;
   }
   @keyframes spin { to { transform: rotate(360deg); } }
-  @keyframes pulse { 50% { transform: scale(1.12); opacity: .85; } }
 
-  /* Texto */
-  .brand {
-    font-size: .95rem;
-    font-weight: 600;
-    letter-spacing: .14em;
-    color: var(--cyan);
-    text-shadow: 0 0 12px rgba(0, 240, 255, .7);
-    margin-bottom: 1rem;
-  }
   h1 {
-    font-size: clamp(1.5rem, 4.6vw, 2.1rem);
-    font-weight: 700;
-    line-height: 1.25;
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 600;
+    letter-spacing: -.02em;
+    line-height: 1.3;
     margin-bottom: .9rem;
-  }
-  h1 span {
-    background: linear-gradient(90deg, var(--cyan), var(--magenta));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
   }
   p {
     color: var(--muted);
+    font-size: 1rem;
     font-weight: 300;
-    font-size: 1.02rem;
-    line-height: 1.6;
-    max-width: 38ch;
-    margin: 0 auto;
+    line-height: 1.65;
   }
-
-  /* Barra de progreso indeterminada */
-  .bar {
-    margin: 2rem auto 0;
-    width: 70%;
-    height: 4px;
-    border-radius: 4px;
-    background: rgba(255, 255, 255, .1);
-    overflow: hidden;
-  }
-  .bar::before {
-    content: "";
-    display: block;
-    height: 100%;
-    width: 38%;
-    border-radius: 4px;
-    background: linear-gradient(90deg, var(--cyan), var(--magenta));
-    box-shadow: 0 0 14px var(--cyan);
-    animation: slide 1.8s ease-in-out infinite;
-  }
-  @keyframes slide {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(263%); }
-  }
-
-  .status {
-    margin-top: 1.4rem;
-    font-size: .82rem;
-    color: var(--muted);
-    display: inline-flex; align-items: center; gap: .55rem;
-  }
-  .status i {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: #3dffa2;
-    box-shadow: 0 0 10px #3dffa2;
-    animation: blink 1.6s ease-in-out infinite;
-  }
-  @keyframes blink { 50% { opacity: .3; } }
 
   @media (prefers-reduced-motion: reduce) {
-    *, *::before { animation-duration: 40s !important; }
+    *, *::before, *::after { animation-duration: 30s !important; }
   }
 </style>
 </head>
 <body>
-  <div class="glow a"></div>
-  <div class="glow b"></div>
-  <div class="glow c"></div>
-  <div class="grid"></div>
-
   <main role="status" aria-live="polite">
-    <div class="loader" aria-hidden="true">
-      <div class="ring r1"></div>
-      <div class="ring r2"></div>
-      <div class="ring r3"></div>
-      <div class="core">
-        <svg viewBox="0 0 48 48" fill="none" stroke="#00f0ff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M24 5 41 15v18L24 43 7 33V15z"/>
-          <path d="M16 32 24 15l8 17M19.5 26h9" stroke="#ff2bd6"/>
-        </svg>
-      </div>
-    </div>
-
-    <div class="brand">AXELION</div>
-    <h1>Estamos trabajando en <span>Axelion Launcher</span></h1>
-    <p>Estamos preparando mejoras para ofrecerte una mejor experiencia. Por favor, vuelve más tarde.</p>
-
-    <div class="bar" aria-hidden="true"></div>
-    <div class="status"><i></i> Mantenimiento en curso</div>
+    <div class="spinner" aria-hidden="true"></div>
+    <h1>Estamos trabajando en Axelion Launcher</h1>
+    <p>Estamos realizando tareas de mantenimiento.<br>Por favor, vuelve más tarde.</p>
   </main>
 </body>
 </html>
